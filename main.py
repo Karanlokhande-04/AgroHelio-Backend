@@ -3,6 +3,12 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import requests
 import numpy as np
+from supabase import create_client, Client
+
+# Replace these with your actual Supabase keys
+SUPABASE_URL = "sb_secret_j2JAcBZU9xLXW53oMNoS3w_XdNiIMwB"
+SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtncm96amZwZGt1aXd0bXRzcmtvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk4ODE5OTIsImV4cCI6MjA5NTQ1Nzk5Mn0._Yo6Dz_2jMHpE3e9LqL20J_TfDp9L9pMm3ZgF9vf6Xg"
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 app = FastAPI()
 
