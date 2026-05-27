@@ -74,16 +74,20 @@ async def analyze_site(lat: float, lon: float):
 @app.post("/api/farmer/calculate")
 async def farmer_calc(data: dict):
     pump_hp = float(data.get("pumpHp", 5))
-    # Standard Indian Agri-Solar Logic
     system_size = pump_hp * 1.5
     yearly_savings = pump_hp * 1200 * 12
-    cost = pump_hp * 45000
-    subsidy = cost * 0.60 # PM-KUSUM 60%
+    
+    # NEW: Save to Database
+    result = supabase.table("farm_data").insert({
+        "user_email": data.get("email", "guest@agrohelio.com"),
+        "pump_hp": pump_hp,
+        "crop_type": data.get("cropType"),
+        "savings_yearly": yearly_savings,
+        "system_size_kw": system_size
+    }).execute()
     
     return {
         "recommended_kw": system_size,
         "yearly_savings": yearly_savings,
-        "farmer_share": cost - subsidy,
-        "subsidy_amount": subsidy,
         "panels": round((system_size * 1000) / 400)
     }
